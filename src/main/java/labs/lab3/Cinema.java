@@ -1,6 +1,10 @@
 package labs.lab3;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Cinema {
@@ -46,6 +50,26 @@ public class Cinema {
         } else {
             System.out.println("Hall with number " + hallNumber + " does not exist");
         }
+    }
+
+    public MovieSession findNearestMovie() {
+        MovieSession nearestMovie = null;
+        LocalDateTime currentTime = LocalDateTime.now();
+        Duration shortestDuration = null;
+        for (Hall hall : halls.values()) {
+            for (MovieSession session : hall.getSessions().values()) {
+                LocalDateTime sessionStartTime = LocalDateTime.parse(session.getStartTime());
+                Duration duration = Duration.between(currentTime, sessionStartTime);
+                if (duration.isNegative()) {
+                    continue;
+                }
+                if (shortestDuration == null || duration.compareTo(shortestDuration) < 0) {
+                    shortestDuration = duration;
+                    nearestMovie = session;
+                }
+            }
+        }
+        return nearestMovie;
     }
 
     public void buyTicket(int hallNumber, String movieTitle, String startTime, int row, int seat) {

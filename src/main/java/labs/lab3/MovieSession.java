@@ -1,5 +1,7 @@
 package labs.lab3;
 
+import java.util.Arrays;
+
 public class MovieSession {
     private String movieTitle;
     private String startTime;
@@ -80,5 +82,15 @@ public class MovieSession {
             displaySeats();
             System.out.println(this.startTime);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "MovieSession{" +
+                "movieTitle='" + movieTitle + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", duration=" + duration +
+                ", seats=" + Arrays.toString(seats) +
+                '}';
     }
 }

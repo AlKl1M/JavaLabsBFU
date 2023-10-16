@@ -77,7 +77,7 @@ public class Cinema {
         }
     }
 
-    public List<String> findNearestMovie(List<Cinema> cinemas, String movieTitle) {
+    public static List<String> findNearestMovie(List<Cinema> cinemas, String movieTitle) {
         List<String> result = new ArrayList<>();
         MovieSession nearestMovie = null;
         String nearestCinema = "";
@@ -114,5 +114,13 @@ public class Cinema {
         } else {
             System.out.println("Hall with number " + hallNumber + " does not exist");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Cinema{" +
+                "name='" + name + '\'' +
+                ", halls=" + halls +
+                '}';
     }
 }

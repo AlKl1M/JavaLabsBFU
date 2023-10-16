@@ -41,7 +41,6 @@ public class Hall {
     public void configureSeats(int[][] seats) {
         if (seats.length != rows || seats[0].length != seatsPerRow) {
             System.out.println("Invalid seats config");
-            return;
         }
     }
 

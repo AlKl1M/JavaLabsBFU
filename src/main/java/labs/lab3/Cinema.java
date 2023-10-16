@@ -52,20 +52,25 @@ public class Cinema {
         }
     }
 
-    public MovieSession findNearestMovie() {
+    public MovieSession findNearestMovie(List<Cinema> cinemas, String movieTitle) {
         MovieSession nearestMovie = null;
         LocalDateTime currentTime = LocalDateTime.now();
         Duration shortestDuration = null;
-        for (Hall hall : halls.values()) {
-            for (MovieSession session : hall.getSessions().values()) {
-                LocalDateTime sessionStartTime = LocalDateTime.parse(session.getStartTime());
-                Duration duration = Duration.between(currentTime, sessionStartTime);
-                if (duration.isNegative()) {
-                    continue;
-                }
-                if (shortestDuration == null || duration.compareTo(shortestDuration) < 0) {
-                    shortestDuration = duration;
-                    nearestMovie = session;
+        for (Cinema cinema: cinemas) {
+            for (Hall hall : cinema.getHalls().values()) {
+                for (MovieSession session : hall.getSessions().values()) {
+                    if (!session.getMovieTitle().equals(movieTitle)) {
+                        continue;
+                    }
+                    LocalDateTime sessionStartTime = LocalDateTime.parse(session.getStartTime());
+                    Duration duration = Duration.between(currentTime, sessionStartTime);
+                    if (duration.isNegative()) {
+                        continue;
+                    }
+                    if (shortestDuration == null || duration.compareTo(shortestDuration) < 0) {
+                        shortestDuration = duration;
+                        nearestMovie = session;
+                    }
                 }
             }
         }

@@ -3,6 +3,7 @@ package labs.lab3;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,17 +44,43 @@ public class Cinema {
             System.out.println("Hall with number " + hallNumber + " does not exist");
         }
     }
-    public void createSession(int hallNumber, String movieTitle, String startTime) {
+    public void createSession(int hallNumber, String movieTitle, String startTime, int duration) {
         if (halls.containsKey(hallNumber)) {
             Hall hall = halls.get(hallNumber);
-            hall.createSession(movieTitle, startTime);
+            hall.createSession(movieTitle, startTime, duration);
         } else {
             System.out.println("Hall with number " + hallNumber + " does not exist");
         }
     }
 
-    public MovieSession findNearestMovie(List<Cinema> cinemas, String movieTitle) {
+    public void printPlan(int hallNumber, String movieTitle, String startTime) {
+        if (halls.containsKey(hallNumber)) {
+            Hall hall = halls.get(hallNumber);
+            Map<String, MovieSession> sessions = hall.getSessions();
+            for (Map.Entry<String, MovieSession> entry : sessions.entrySet()) {
+                if (entry.getValue().getMovieTitle().equals(movieTitle) &&
+                entry.getValue().getStartTime().equals(startTime)) {
+                    int[][] seats = entry.getValue().getSeats();
+                    System.out.println("Seats in the hall:");
+                    for (int i = 0; i < seats.length; i++) {
+                        for (int j = 0; j < seats[i].length; j++) {
+                            if (seats[i][j] == 0) {
+                                System.out.print("X ");
+                            } else {
+                                System.out.print("O ");
+                            }
+                        }
+                        System.out.println();
+                    }
+                }
+            }
+        }
+    }
+
+    public List<String> findNearestMovie(List<Cinema> cinemas, String movieTitle) {
+        List<String> result = new ArrayList<>();
         MovieSession nearestMovie = null;
+        String nearestCinema = "";
         LocalDateTime currentTime = LocalDateTime.now();
         Duration shortestDuration = null;
         for (Cinema cinema: cinemas) {
@@ -70,11 +97,14 @@ public class Cinema {
                     if (shortestDuration == null || duration.compareTo(shortestDuration) < 0) {
                         shortestDuration = duration;
                         nearestMovie = session;
+                        nearestCinema = cinema.getName();
                     }
                 }
             }
         }
-        return nearestMovie;
+        result.add(nearestMovie.getStartTime());
+        result.add(nearestCinema);
+        return result;
     }
 
     public void buyTicket(int hallNumber, String movieTitle, String startTime, int row, int seat) {

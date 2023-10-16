@@ -1,11 +1,9 @@
 package labs.lab3;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class MovieSession {
     private String movieTitle;
     private String startTime;
+    private int duration;
     private int[][] seats;
 
     public String getMovieTitle() {
@@ -46,9 +44,18 @@ public class MovieSession {
         this.seats = seats;
     }
 
-    public MovieSession(String movieTitle, String startTime, int rows, int seatsPerRow) {
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public MovieSession(String movieTitle, String startTime, int duration, int rows, int seatsPerRow) {
         this.movieTitle = movieTitle;
         this.startTime = startTime;
+        this.duration = duration;
         this.seats = new int[rows][seatsPerRow];
     }
 

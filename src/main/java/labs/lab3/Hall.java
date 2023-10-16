@@ -45,12 +45,12 @@ public class Hall {
         }
     }
 
-    public void createSession(String movieTitle, String startTime) {
+    public void createSession(String movieTitle, String startTime, int duration) {
         if (sessions.containsKey(startTime)) {
             System.out.println("Session at " + startTime + " already exists");
             return;
         }
-        MovieSession session = new MovieSession(movieTitle, startTime, rows, seatsPerRow);
+        MovieSession session = new MovieSession(movieTitle, startTime, duration, rows, seatsPerRow);
         sessions.put(startTime, session);
     }
 

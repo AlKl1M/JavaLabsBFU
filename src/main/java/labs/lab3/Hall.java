@@ -14,18 +14,34 @@ public class Hall {
         this.sessions = new HashMap<>();
     }
 
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getSeatsPerRow() {
+        return seatsPerRow;
+    }
+
+    public void setSeatsPerRow(int seatsPerRow) {
+        this.seatsPerRow = seatsPerRow;
+    }
+
+    public Map<String, MovieSession> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Map<String, MovieSession> sessions) {
+        this.sessions = sessions;
+    }
+
     public void configureSeats(int[][] seats) {
         if (seats.length != rows || seats[0].length != seatsPerRow) {
             System.out.println("Invalid seats config");
             return;
-        }
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < seatsPerRow; j++) {
-                if (seats[i][j] == 0) {
-                    System.out.println("Seat at row " + (i + 1) + ", seat " + (j + 1) + " is now available.");
-                }
-            }
         }
     }
 

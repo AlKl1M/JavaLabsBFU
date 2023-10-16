@@ -1,5 +1,8 @@
 package labs.lab3;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MovieSession {
     private String movieTitle;
     private String startTime;
@@ -67,6 +70,8 @@ public class MovieSession {
         } else {
             seats[row][seat] = 1;
             System.out.println("Ticket bought for seat at row " + row + " seat " + seat);
+            displaySeats();
+            System.out.println(this.startTime);
         }
     }
 }

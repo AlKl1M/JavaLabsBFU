@@ -72,12 +72,12 @@ public class MovieSession {
             return;
         }
 
-        if (seats[row][seat] == 1) {
+        if (seats[row-1][seat-1] == 1) {
             System.out.println(seats[row-1][seat-1]);
             System.out.println("Seat at row " + row + ", seat " + seat + " is already bought");
             displaySeats();
         } else {
-            seats[row][seat] = 1;
+            seats[row-1][seat-1] = 1;
             System.out.println("Ticket bought for seat at row " + row + " seat " + seat);
             displaySeats();
             System.out.println(this.startTime);
@@ -90,7 +90,6 @@ public class MovieSession {
                 "movieTitle='" + movieTitle + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", duration=" + duration +
-                ", seats=" + Arrays.toString(seats) +
                 '}';
     }
 }

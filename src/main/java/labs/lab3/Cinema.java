@@ -2,7 +2,6 @@ package labs.lab3;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +119,7 @@ public class Cinema {
     public String toString() {
         return "Cinema{" +
                 "name='" + name + '\'' +
-                ", halls=" + halls +
+                ", halls=" + halls.keySet() +
                 '}';
     }
 }

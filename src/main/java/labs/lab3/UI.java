@@ -24,9 +24,13 @@ public class UI {
                 switch (choice) {
                     case 1 -> createCinema();
                     case 2 -> createHall();
-                    case 3 -> configureSeats();
                     case 4 -> createMovieSession();
-                    case 5 -> running = false;
+                    case 5 -> showCinemas();
+                    case 6 -> showCinemaInfo();
+                    case 7 -> {
+                        break;
+                    }
+                    case 8 -> running = false;
                 }
             } else {
                 printUserMenu();
@@ -35,7 +39,9 @@ public class UI {
                 switch (choice) {
                     case 1 -> buyTicket();
                     case 2 -> findNearestMovieSession();
-                    case 3 -> printPlanOfMovieSession();
+                    case 3 -> {
+                        break;
+                    }
                     case 4 -> running = false;
                 }
             }
@@ -49,7 +55,10 @@ public class UI {
         System.out.println("2. Create hall");
         System.out.println("3. Configure seats");
         System.out.println("4. Create movie session");
-        System.out.println("5. Exit");
+        System.out.println("5. Show cinemas");
+        System.out.println("6. Show cinema info");
+        System.out.println("7. Logout");
+        System.out.println("8. Exit");
         System.out.println("Enter your choice: ");
     }
 
@@ -57,7 +66,7 @@ public class UI {
         System.out.println("\n-- User Operations --");
         System.out.println("1. Buy ticket");
         System.out.println("2. Find nearest movie session");
-        System.out.println("3. Print plan of movie session");
+        System.out.println("3. Logout");
         System.out.println("4. Exit");
         System.out.println("Enter your choice: ");
     }
@@ -90,6 +99,7 @@ public class UI {
         int seatsPerRow = scanner.nextInt();
         System.out.println("Finally, enter name of the cinema where u want to create hall");
         String cinemaName = scanner.nextLine();
+        scanner.nextLine();
         for (Cinema cinema : cinemas) {
             if (cinema.getName().equals(cinemaName)) {
                 cinema.addHall(id, rows, seatsPerRow);
@@ -97,24 +107,46 @@ public class UI {
         }
     }
 
-    public void configureSeats() {
-        System.out.println("Zaglushka");
-    }
-
     public void createMovieSession() {
         System.out.println("Enter number of hall, where u want to create movie session");
         int id = scanner.nextInt();
         System.out.println("Enter movie title");
         String title = scanner.nextLine();
-        System.out.println("Enter time where movie starts (pattern - <yy-mm-ddThh:mm:ss>)");
+        scanner.nextLine();
+        System.out.println("Enter time where movie starts (pattern - <yyyy-mm-ddThh:mm:ss>)");
         String date = scanner.nextLine();
         System.out.println("Enter duration of this movie (in minutes)");
         int duration = scanner.nextInt();
+        scanner.nextLine();
         System.out.println("Finally, enter name of the cinema, where u want to create this movie session");
         String cinemaName = scanner.nextLine();
         for (Cinema cinema : cinemas) {
             if (cinema.getName().equals(cinemaName)) {
                 cinema.createSession(id, title, date, duration);
+            }
+        }
+    }
+
+    public void showCinemas() {
+        System.out.println("Here list of cinemas: ");
+        for (Cinema cinema : cinemas) {
+            System.out.println(cinema.toString());
+        }
+    }
+
+    public void showCinemaInfo() {
+        System.out.println("Enter name of cinema that u want to see: ");
+        String cinemaName = scanner.nextLine();
+        for (Cinema cinema : cinemas) {
+            if (cinema.getName().equals(cinemaName)) {
+                System.out.println("Here list of movie sessions ");
+                for (Map.Entry<Integer, Hall> entry: cinema.getHalls().entrySet()) {
+                    for (MovieSession movieSession : entry.getValue().getSessions().values()) {
+                        System.out.println("---------------------------");
+                        System.out.println(movieSession.toString());
+                        movieSession.displaySeats();
+                    }
+                }
             }
         }
     }
@@ -131,20 +163,26 @@ public class UI {
                 System.out.println("Here list of movie sessions today: ");
                 for (Map.Entry<Integer, Hall> entry: cinema.getHalls().entrySet()) {
                     for (MovieSession movieSession : entry.getValue().getSessions().values()) {
-                        movieSession.toString();
+
+                        System.out.println("---------------------------");
+                        System.out.println(movieSession.toString());
+                        movieSession.displaySeats();
                     }
                 }
 
                 System.out.println("Enter hall number, where u want to buy a ticket");
                 int hallNumber = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("Enter movie title");
                 String title = scanner.nextLine();
                 System.out.println("Enter date (pattern - <yy-mm-ddThh:mm:ss>)");
                 String date = scanner.nextLine();
                 System.out.println("Enter row");
                 int row = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("Enter seat");
                 int seat = scanner.nextInt();
+                scanner.nextLine();
                 cinema.buyTicket(hallNumber, title, date, row, seat);
             }
         }
@@ -159,9 +197,5 @@ public class UI {
         } catch (NullPointerException e) {
             System.out.println("Where are no nearest movie");
         }
-    }
-
-    public void printPlanOfMovieSession() {
-
     }
 }

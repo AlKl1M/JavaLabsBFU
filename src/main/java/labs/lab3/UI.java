@@ -24,13 +24,11 @@ public class UI {
                 switch (choice) {
                     case 1 -> createCinema();
                     case 2 -> createHall();
-                    case 4 -> createMovieSession();
-                    case 5 -> showCinemas();
-                    case 6 -> showCinemaInfo();
-                    case 7 -> {
-                        break;
-                    }
-                    case 8 -> running = false;
+                    case 3 -> createMovieSession();
+                    case 4 -> showCinemas();
+                    case 5 -> showCinemaInfo();
+                    case 6 -> running = false;
+                    default -> System.out.println("Wrong operation");
                 }
             } else {
                 printUserMenu();
@@ -39,10 +37,10 @@ public class UI {
                 switch (choice) {
                     case 1 -> buyTicket();
                     case 2 -> findNearestMovieSession();
-                    case 3 -> {
-                        break;
-                    }
-                    case 4 -> running = false;
+                    case 3 -> showCinemas();
+                    case 4 -> showCinemaInfo();
+                    case 5 -> running = false;
+                    default -> System.out.println("Wrong operation");
                 }
             }
         }
@@ -53,12 +51,10 @@ public class UI {
         System.out.println("\n-- Admin Operations --");
         System.out.println("1. Create cinema");
         System.out.println("2. Create hall");
-        System.out.println("3. Configure seats");
-        System.out.println("4. Create movie session");
-        System.out.println("5. Show cinemas");
-        System.out.println("6. Show cinema info");
-        System.out.println("7. Logout");
-        System.out.println("8. Exit");
+        System.out.println("3. Create movie session");
+        System.out.println("4. Show cinemas");
+        System.out.println("5. Show cinema info");
+        System.out.println("6. Exit");
         System.out.println("Enter your choice: ");
     }
 
@@ -66,14 +62,17 @@ public class UI {
         System.out.println("\n-- User Operations --");
         System.out.println("1. Buy ticket");
         System.out.println("2. Find nearest movie session");
-        System.out.println("3. Logout");
-        System.out.println("4. Exit");
+        System.out.println("3. Show cinemas");
+        System.out.println("4. Show cinema info");
+        System.out.println("5. Exit");
         System.out.println("Enter your choice: ");
     }
 
     public boolean isAdmin () {
-        System.out.println("Hello, enter your login and password");
+        System.out.println("Hello, enter your login and password. (P.S. L: admin P: admin for admin and every another chars for another user)");
+        System.out.println("Enter your login");
         String login = scanner.nextLine();
+        System.out.println("Enter your password");
         String password = scanner.nextLine();
         if (login.equalsIgnoreCase("admin") && password.equalsIgnoreCase("admin")) {
             return true;
@@ -91,14 +90,14 @@ public class UI {
     }
 
     public void createHall() {
+        System.out.println("Enter name of the cinema where u want to create hall");
+        String cinemaName = scanner.nextLine();
         System.out.println("Enter id of the hall");
         int id = scanner.nextInt();
         System.out.println("Enter number of rows");
         int rows = scanner.nextInt();
         System.out.println("Enter number of seats per row");
         int seatsPerRow = scanner.nextInt();
-        System.out.println("Finally, enter name of the cinema where u want to create hall");
-        String cinemaName = scanner.nextLine();
         scanner.nextLine();
         for (Cinema cinema : cinemas) {
             if (cinema.getName().equals(cinemaName)) {
@@ -108,21 +107,20 @@ public class UI {
     }
 
     public void createMovieSession() {
+        System.out.println("Enter name of the cinema, where u want to create this movie session");
+        String cinemaName = scanner.nextLine();
         System.out.println("Enter number of hall, where u want to create movie session");
         int id = scanner.nextInt();
         System.out.println("Enter movie title");
         String title = scanner.nextLine();
         scanner.nextLine();
         System.out.println("Enter time where movie starts (pattern - <yyyy-mm-ddThh:mm:ss>)");
-        String date = scanner.nextLine();
-        System.out.println("Enter duration of this movie (in minutes)");
-        int duration = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Finally, enter name of the cinema, where u want to create this movie session");
-        String cinemaName = scanner.nextLine();
+        String startTime = scanner.nextLine();
+        System.out.println("Enter time where movie starts (pattern - <yyyy-mm-ddThh:mm:ss>)");
+        String endTime = scanner.nextLine();
         for (Cinema cinema : cinemas) {
             if (cinema.getName().equals(cinemaName)) {
-                cinema.createSession(id, title, date, duration);
+                cinema.createSession(id, title, startTime, endTime);
             }
         }
     }
@@ -163,8 +161,8 @@ public class UI {
                 System.out.println("Here list of movie sessions today: ");
                 for (Map.Entry<Integer, Hall> entry: cinema.getHalls().entrySet()) {
                     for (MovieSession movieSession : entry.getValue().getSessions().values()) {
-
                         System.out.println("---------------------------");
+                        System.out.println("Number of hall: " + entry.getKey());
                         System.out.println(movieSession.toString());
                         movieSession.displaySeats();
                     }
@@ -195,7 +193,7 @@ public class UI {
             List<String> result = findNearestMovie(cinemas, title);
             System.out.println("Clothest cinema where u can watch " + title + " is " + result.get(1) + ". Start time: " + result.get(0));
         } catch (NullPointerException e) {
-            System.out.println("Where are no nearest movie");
+            System.out.println("There are no nearest movie");
         }
     }
 }

@@ -2,6 +2,8 @@ package labs.lab3;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,13 +45,26 @@ public class Cinema {
             System.out.println("Hall with number " + hallNumber + " does not exist");
         }
     }
-    public void createSession(int hallNumber, String movieTitle, String startTime, int duration) {
+    public void createSession(int hallNumber, String movieTitle, String startTime, String endTime) {
         if (halls.containsKey(hallNumber)) {
             Hall hall = halls.get(hallNumber);
-            hall.createSession(movieTitle, startTime, duration);
+            for (MovieSession session : hall.getSessions().values()) {
+                if (areSessionsIntersect(startTime, endTime, session.getStartTime(), session.getEndTime())) {
+                    System.out.println("Session intersects with existing session: " + session.getEndTime());
+                }
+            }
+            hall.createSession(movieTitle, startTime, endTime);
         } else {
             System.out.println("Hall with number " + hallNumber + " does not exist");
         }
+    }
+
+    private boolean areSessionsIntersect(String startTime, String endTime, String startTime1, String endTime1) {
+        LocalDateTime start1 = LocalDateTime.parse(startTime, DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime end1 = LocalDateTime.parse(endTime, DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime start2 = LocalDateTime.parse(startTime1, DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime end2 = LocalDateTime.parse(endTime1, DateTimeFormatter.ISO_DATE_TIME);
+        return (start1.isBefore(end2) && end1.isAfter(start2)) || (start2.isBefore(end1) && end2.isAfter(start1));
     }
 
     public void printPlan(int hallNumber, String movieTitle, String startTime) {
@@ -117,9 +132,8 @@ public class Cinema {
 
     @Override
     public String toString() {
-        return "Cinema{" +
+        return "Cinema: " +
                 "name='" + name + '\'' +
-                ", halls=" + halls.keySet() +
-                '}';
+                ", halls=" + halls.keySet();
     }
 }

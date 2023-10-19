@@ -1,11 +1,9 @@
 package labs.lab3;
 
-import java.util.Arrays;
-
 public class MovieSession {
     private String movieTitle;
     private String startTime;
-    private int duration;
+    private String endTime;
     private int[][] seats;
 
     public String getMovieTitle() {
@@ -46,18 +44,18 @@ public class MovieSession {
         this.seats = seats;
     }
 
-    public int getDuration() {
-        return duration;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
-    public MovieSession(String movieTitle, String startTime, int duration, int rows, int seatsPerRow) {
+    public MovieSession(String movieTitle, String startTime, String endTime, int rows, int seatsPerRow) {
         this.movieTitle = movieTitle;
         this.startTime = startTime;
-        this.duration = duration;
+        this.endTime = endTime;
         this.seats = new int[rows][seatsPerRow];
     }
 
@@ -86,10 +84,9 @@ public class MovieSession {
 
     @Override
     public String toString() {
-        return "MovieSession{" +
+        return "MovieSession " +
                 "movieTitle='" + movieTitle + '\'' +
                 ", startTime='" + startTime + '\'' +
-                ", duration=" + duration +
-                '}';
+                ", endTime=" + endTime;
     }
 }

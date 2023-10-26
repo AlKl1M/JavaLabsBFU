@@ -99,10 +99,16 @@ public class UI {
         System.out.println("Enter number of seats per row");
         int seatsPerRow = scanner.nextInt();
         scanner.nextLine();
+        boolean flag = false;
         for (Cinema cinema : cinemas) {
             if (cinema.getName().equals(cinemaName)) {
                 cinema.addHall(id, rows, seatsPerRow);
+                flag = true;
+                System.out.println("Hall " + id + " created");
             }
+        }
+        if (!flag) {
+            System.out.println("Cinema " + cinemaName + " does not exist");
         }
     }
 
@@ -135,9 +141,12 @@ public class UI {
     public void showCinemaInfo() {
         System.out.println("Enter name of cinema that u want to see: ");
         String cinemaName = scanner.nextLine();
+        boolean cinemaExists = false;
+
         for (Cinema cinema : cinemas) {
             if (cinema.getName().equals(cinemaName)) {
-                System.out.println("Here list of movie sessions ");
+                cinemaExists = true;
+                System.out.println("Here is the list of movie sessions: ");
                 for (Map.Entry<Integer, Hall> entry: cinema.getHalls().entrySet()) {
                     for (MovieSession movieSession : entry.getValue().getSessions().values()) {
                         System.out.println("---------------------------");
@@ -146,6 +155,10 @@ public class UI {
                     }
                 }
             }
+        }
+
+        if (!cinemaExists) {
+            System.out.println("Cinema " + cinemaName + " does not exist");
         }
     }
 
@@ -173,7 +186,7 @@ public class UI {
                 scanner.nextLine();
                 System.out.println("Enter movie title");
                 String title = scanner.nextLine();
-                System.out.println("Enter date (pattern - <yy-mm-ddThh:mm:ss>)");
+                System.out.println("Enter date (pattern - <yyyy-mm-ddThh:mm:ss>)");
                 String date = scanner.nextLine();
                 System.out.println("Enter row");
                 int row = scanner.nextInt();

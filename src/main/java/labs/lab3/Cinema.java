@@ -2,7 +2,6 @@ package labs.lab3;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,24 +94,15 @@ public class Cinema {
         List<String> result = new ArrayList<>();
         MovieSession nearestMovie = null;
         String nearestCinema = "";
-        LocalDateTime currentTime = LocalDateTime.now();
-        Duration shortestDuration = null;
+
         for (Cinema cinema: cinemas) {
             for (Hall hall : cinema.getHalls().values()) {
                 for (MovieSession session : hall.getSessions().values()) {
-                    if (!session.getMovieTitle().equals(movieTitle)) {
+                    if (!session.getMovieTitle().equalsIgnoreCase(movieTitle)) {
                         continue;
                     }
-                    LocalDateTime sessionStartTime = LocalDateTime.parse(session.getStartTime());
-                    Duration duration = Duration.between(currentTime, sessionStartTime);
-                    if (duration.isNegative()) {
-                        continue;
-                    }
-                    if (shortestDuration == null || duration.compareTo(shortestDuration) < 0) {
-                        shortestDuration = duration;
-                        nearestMovie = session;
-                        nearestCinema = cinema.getName();
-                    }
+                    nearestMovie = session;
+                    nearestCinema = cinema.getName();
                 }
             }
         }
